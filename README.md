@@ -6,3 +6,4 @@
 ## Todo
 - Make this into a useable header file
 - Figure out what else to add to it 
+- Make documentation
