@@ -68,31 +68,38 @@ void draw_header(std::vector<std::string> &par_vec, std::vector<std::string> &he
 }
 
 /* Draws the entries below the headers */
-void draw_entries(std::vector<std::string> &par_vec, std::vector<std::string> &header_vec, int num_of_values)
-{
-    std::vector<int> longestValues = find_longest_entries(par_vec, header_vec, num_of_values);
-    std::vector<int> headerLengths = find_longest_headers(header_vec, num_of_values);
-    int row = 2;
-    int column = 1;
-    int i = 0;
-    for (std::string value : par_vec) {
-        int extra = 0;
-        if ((i % num_of_values) == 0) {
-            row++;
-            column = 1;
-            i = 0;
-        }
-        mvprintw(row, column, value.c_str());
-        if (longestValues[i] > headerLengths[i]) {
-            extra = longestValues[i] - headerLengths[i];
-        }
-        column += headerLengths[i] + space_between + extra;
-        i++;
-    }
-}
+// void draw_entries(std::vector<std::string> &par_vec, std::vector<std::string> &header_vec, int num_of_values)
+// {
+    // std::vector<int> longestValues = find_longest_entries(par_vec, header_vec, num_of_values);
+    // std::vector<int> headerLengths = find_longest_headers(header_vec, num_of_values);
+    // int row = 2;
+    // int column = 1;
+    // int i = 0;
+    // for (std::string value : par_vec) {
+        // int extra = 0;
+        // if ((i % num_of_values) == 0) {
+            // row++;
+            // column = 1;
+            // i = 0;
+        // }
+        // mvprintw(row, column, value.c_str());
+        // if (longestValues[i] > headerLengths[i]) {
+            // extra = longestValues[i] - headerLengths[i];
+        // }
+        // column += headerLengths[i] + space_between + extra;
+        // i++;
+    // }
+// }
+
+/* Function for end users to use */
+// void draw_table(std::vector<std::string> &entries_vec, std::vector<std::string> &header_vec, int num_of_values)
+// {
+    // draw_header(entries_vec, header_vec, num_of_values);
+    // draw_entries(entries_vec, header_vec, num_of_values);
+// }
 
 // make function to find total # of rows
-void edit_cell(std::vector<std::string> &vec, int cur_row, int cur_col)
+void edit_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)
 {
     char token[512];
     int row, col;
@@ -104,11 +111,14 @@ void edit_cell(std::vector<std::string> &vec, int cur_row, int cur_col)
     getstr(token);
     curs_set(0);
     noecho();
+    clear_refresh();
 
-    vec[0] = token;
+    // TODO -1 at the end should not be needed, has something to do with bounds checking issue noted in menu_init
+    int index = ((cur_row - 1) * num_of_columns) + cur_col - 1;
+    vec[index] = token;
 }
 
-// TODO Figure out what to do with these
+// TODO Figure out what to do with these (where to put them, maybe def.h file for the consts)
 int keyPress = 0;
 int highlight_row = 1;
 int highlight_col = 1;
@@ -119,10 +129,11 @@ constexpr int KEY_H = 104;
 constexpr int KEY_Q = 113;
 constexpr int KEY_E = 101;
 
-void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec,int num_of_columns)
+void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
 {
-    clear_refresh();
-    draw_header(vec, headVec, 3);
+    const int num_of_columns = headVec.size();
+    const int size = vec.size();
+    draw_header(vec, headVec, num_of_columns);
     std::vector<int> longestValues = find_longest_entries(vec, headVec, num_of_columns);
     std::vector<int> headerLengths = find_longest_headers(headVec, num_of_columns);
     int row = 2;
@@ -130,37 +141,54 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec,
     int i = 0;
     int cur_col = 1;
     int num_of_rows = 0;
-    for (int p = 0; p < vec.size(); p++) {
+
+    // This gets the number of rows in the table
+    for (int p = 0; p < size; p++) {
         if (p % num_of_columns == 0) {
             num_of_rows++;
         }
     }
-    if (vec.size() % num_of_columns == 0) {
+    if (size % num_of_columns == 0) {
         num_of_rows++;
     }
+
+    // This prints out the cell values
     for (std::string value : vec) {
         int extra = 0;
+        // Checks to see if the column needs to end and a new row needs to start
         if ((i % num_of_columns) == 0) {
             row++;
             column = 1;
             cur_col = 1;
             i = 0;
         }
+
+        // Determines which to highlight
         if (highlight_row == (row - 2) && highlight_col == cur_col){
             wattron(stdscr, A_REVERSE);
         }
+
         mvprintw(row, column, value.c_str());
+
         wattroff(stdscr, A_REVERSE);
+
+        // Changes the header length if any cell value is longer than the header length
         if (longestValues[i] > headerLengths[i]) {
             extra = longestValues[i] - headerLengths[i];
         }
+
         column += headerLengths[i] + space_between + extra;
         i++;
         cur_col++;
     }
+
+    int cells_in_last_row = size % num_of_columns;
+
+    // Checks for users keypress
     keyPress = wgetch(stdscr);
-    // TODO Every row can have a different number of columns, figure out how to do bounds checking with that (maybe check every column for number of rows)
-    int test = vec.size() % num_of_columns;
+    /* Does bounds checking
+     * only allows the "cursor" to go the edge of the table
+     */
     switch(keyPress) {
         case KEY_K:
             highlight_row--;
@@ -170,10 +198,10 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec,
             break;
         case KEY_J:
             highlight_row++;
-            if (test != 0) {
-                if (highlight_col == num_of_columns) {
-                    if (highlight_row == test + 1) {
-                        highlight_row = test;
+            if (cells_in_last_row != 0) {
+                if (highlight_row == num_of_rows) {
+                    if (highlight_col > cells_in_last_row) {
+                        highlight_row = num_of_rows - 1;
                     }
                 }
             }
@@ -189,10 +217,10 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec,
             break;
         case KEY_L:
             highlight_col++;
-            if (test != 0) {
+            if (cells_in_last_row != 0) {
                 if (highlight_row == num_of_rows) {
-                    if (highlight_col == test + 1) {
-                        highlight_col = test;
+                    if (highlight_col == cells_in_last_row + 1) {
+                        highlight_col = cells_in_last_row;
                     }
                 }
             }
@@ -204,14 +232,6 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec,
             endwin();
             exit(0);
         case KEY_E:
-            edit_cell(vec, row - 2, cur_col);
+            edit_cell(vec, highlight_row, highlight_col, num_of_columns);
     }
 }
-
-/* Function for end users to use */
-void draw_table(std::vector<std::string> &entries_vec, std::vector<std::string> &header_vec, int num_of_values)
-{
-    draw_header(entries_vec, header_vec, num_of_values);
-    draw_entries(entries_vec, header_vec, num_of_values);
-}
-
