@@ -122,10 +122,14 @@ void edit_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_
 int keyPress = 0;
 int highlight_row = 1;
 int highlight_col = 1;
+constexpr int KEY_SHIFT_H = 72;
+constexpr int KEY_SHIFT_J = 74;
+constexpr int KEY_SHIFT_K = 75;
+constexpr int KEY_SHIFT_L = 76;
+constexpr int KEY_H = 104;
 constexpr int KEY_J = 106;
 constexpr int KEY_K = 107;
 constexpr int KEY_L = 108;
-constexpr int KEY_H = 104;
 constexpr int KEY_Q = 113;
 constexpr int KEY_E = 101;
 
@@ -183,6 +187,9 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
     }
 
     int cells_in_last_row = size % num_of_columns;
+    std::string temp;
+    // Current index in the vector
+    int index = ((highlight_row - 1) * num_of_columns) + highlight_col - 1;
 
     // Checks for users keypress
     keyPress = wgetch(stdscr);
@@ -226,6 +233,42 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
             }
             if (highlight_col == (num_of_columns + 1)) {
                 highlight_col = num_of_columns;
+            }
+            break;
+        case KEY_SHIFT_H:
+            if (highlight_col > 1) {
+                temp = vec[index];
+                vec[index] = vec[index - 1];
+                vec[index - 1] = temp;
+                highlight_col--;
+                clear_refresh();
+            }
+            break;
+        case KEY_SHIFT_L:
+            if (highlight_col < num_of_columns) {
+                temp = vec[index];
+                vec[index] = vec[index + 1];
+                vec[index + 1] = temp;
+                highlight_col++;
+                clear_refresh();
+            }
+            break;
+        case KEY_SHIFT_J:
+            if (highlight_row < num_of_rows) {
+                temp = vec[index];
+                vec[index] = vec[index + num_of_columns];
+                vec[index + num_of_columns] = temp;
+                highlight_row++;
+                clear_refresh();
+            }
+            break;
+        case KEY_SHIFT_K:
+            if (highlight_row > 1) {
+                temp = vec[index];
+                vec[index] = vec[index - num_of_columns];
+                vec[index - num_of_columns] = temp;
+                highlight_row--;
+                clear_refresh();
             }
             break;
         case KEY_Q:
