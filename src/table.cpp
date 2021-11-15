@@ -244,7 +244,6 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
                 clear_refresh();
             }
             break;
-            // TODO: Add bounds checking
         case KEY_SHIFT_L:
             if (highlight_col < num_of_columns) {
                 if (!(highlight_row == num_of_rows && highlight_col == cells_in_last_row)) {
@@ -256,13 +255,16 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
                 }
             }
             break;
+            // TODO: Add bounds checking
         case KEY_SHIFT_J:
-            if (highlight_row < num_of_rows) {
-                temp = vec[index];
-                vec[index] = vec[index + num_of_columns];
-                vec[index + num_of_columns] = temp;
-                highlight_row++;
-                clear_refresh();
+            if (!(highlight_row == num_of_rows - 1 && highlight_col > cells_in_last_row)) {
+                if (highlight_row < num_of_rows) {
+                    temp = vec[index];
+                    vec[index] = vec[index + num_of_columns];
+                    vec[index + num_of_columns] = temp;
+                    highlight_row++;
+                    clear_refresh();
+                }
             }
             break;
         case KEY_SHIFT_K:
