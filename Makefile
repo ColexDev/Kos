@@ -1,3 +1,2 @@
-all: main
-main: main.cpp
-	g++ -I/usr/local/include main.cpp table.cpp progress_bar.cpp utils.cpp -L/usr/local/lib -Wl,-R/usr/local/lib -lncurses -o Kos
+main:
+	g++ -I/usr/local/include src/main.cpp src/table.cpp src/progress_bar.cpp src/utils.cpp -L/usr/local/lib -Wl,-R/usr/local/lib -lncurses -o Kos
