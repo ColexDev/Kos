@@ -2,12 +2,14 @@
 #include <vector>
 #include <ncurses.h>
 #include <fstream>
-#include <unistd.h>
 
 #include "utils.h"
-
+#include "def.h"
 
 constexpr int space_between = 2;
+int keyPress = 0;
+int highlight_row = 1;
+int highlight_col = 1;
 
 /* Finds the longest entries, returns a vector with longest in each column */
 std::vector<int> find_longest_entries(std::vector<std::string> &par_vec, std::vector<std::string> &header_vec,int num_of_values)
@@ -116,26 +118,10 @@ void edit_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_
     noecho();
     clear_refresh();
 
-    // TODO -1 at the end should not be needed, has something to do with bounds checking issue noted in menu_init
     int index = ((cur_row - 1) * num_of_columns) + cur_col - 1;
     vec[index] = token;
 }
 
-// TODO Figure out what to do with these (where to put them, maybe def.h file for the consts)
-int keyPress = 0;
-int highlight_row = 1;
-int highlight_col = 1;
-constexpr int KEY_SHIFT_H = 72;
-constexpr int KEY_SHIFT_J = 74;
-constexpr int KEY_SHIFT_K = 75;
-constexpr int KEY_SHIFT_L = 76;
-constexpr int KEY_H = 104;
-constexpr int KEY_J = 106;
-constexpr int KEY_K = 107;
-constexpr int KEY_L = 108;
-constexpr int KEY_Q = 113;
-constexpr int KEY_E = 101;
-constexpr int KEY_S = 115;
 
 void file_output(std::vector<std::string> &vec, int num_of_rows)
 {
