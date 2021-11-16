@@ -71,6 +71,30 @@ Output:
 [#########-----------] [45.00%]
 ```
 
+List of keybindings:
+```
+Cursor Movement:
+h - select cell to the left
+j - select cell below
+k - select cell above
+l - select cell to the right
+
+Cell Movement:
+H - move cell to the left
+J - move cell below
+K - move cell above
+L - move cell to the right
+
+Cell Manipulation:
+n - creates a new cell
+x - deletes selected cell
+e - edits selected cell
+
+Other:
+s - saves table to "saved.txt"
+q - quits program (does NOT autosave)
+```
+
 ## Todo
 
 - Make this into a static shared library
