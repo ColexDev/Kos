@@ -149,6 +149,24 @@ std::vector<std::string> file_input()
     return vec;
 }
 
+void add_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)
+{
+    char token[512];
+    int row, col;
+    getmaxyx(stdscr, row, col);
+    mvprintw(row - 1, 1, "Enter new cell data: ");
+    move(row - 1, 22);
+    echo();
+    curs_set(1);
+    getstr(token);
+    curs_set(0);
+    noecho();
+    clear_refresh();
+
+    vec.push_back(token);
+
+}
+
 // TODO: option to delete and add new cells
 void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
 {
@@ -228,9 +246,14 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
                         highlight_row = num_of_rows - 1;
                     }
                 }
+            } else {
+                if (highlight_row == num_of_rows) {
+                    highlight_row = num_of_rows - 1;
+                }
             }
-            if (highlight_row == num_of_rows) {
-                highlight_row = num_of_rows - 1;
+
+            if (highlight_row == num_of_rows + 1) {
+                highlight_row = num_of_rows;
             }
             break;
         case KEY_H:
@@ -291,6 +314,9 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
                 highlight_row--;
                 clear_refresh();
             }
+            break;
+        case KEY_N:
+            add_cell(vec, highlight_row, highlight_row, num_of_columns);
             break;
         case KEY_S:
             file_output(vec, num_of_rows);
