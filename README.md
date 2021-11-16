@@ -71,6 +71,8 @@ Output:
 [#########-----------] [45.00%]
 ```
 
+---
+
 ### Keybindings:
 ```
 Cursor Movement:
