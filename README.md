@@ -17,7 +17,7 @@ Kos is an ncurses table system. Currently is is a menu system that mirrors rudim
 
 ## Documentation
 
-Example of setting up an Excel like table
+### Excel Table Example
 ```cpp
 #include <iostream>
 #include <vector>
@@ -46,7 +46,7 @@ In the above an example a file named "saved.txt" needs to contain the desired ce
 
 ---
 
-Simple progress bar example
+### Progress Bar Example
 ```cpp
 #include <iostream>
 #include <ncurses.h>
@@ -71,7 +71,7 @@ Output:
 [#########-----------] [45.00%]
 ```
 
-List of keybindings:
+### Keybindings:
 ```
 Cursor Movement:
 h - select cell to the left
