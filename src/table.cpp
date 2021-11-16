@@ -256,10 +256,11 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
         case KEY_X:
             // TODO: add bounds checking/moving cursor to right space
             remove_cell(vec, highlight_row, highlight_col, num_of_columns);
-            if (highlight_row == num_of_rows && highlight_col > cells_in_last_row) {
-                highlight_col--;
-            } else if (highlight_row == num_of_rows && highlight_col == 1 && cells_in_last_row == 1) {
+            if (highlight_row == num_of_rows && highlight_col == 1 && cells_in_last_row == 1) {
                 highlight_row--;
+                highlight_col = num_of_columns;
+            } else {
+                highlight_col--;
             }
             break;
         case KEY_N:
