@@ -7,6 +7,7 @@ Kos is an ncurses table system. Currently is is a menu system that mirrors rudim
 ## Features
 
 - Ability to easily create an excel like table
+- Add/remove cells
 - Move cells around in table
 - Edit cells within the table
 - Save table to file
