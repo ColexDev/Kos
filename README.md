@@ -40,6 +40,8 @@ int main()
 ```
 In the above an example a file named "saved.txt" needs to contain the desired cells in the table, this is where the program will read and write from
 
+---
+
 Simple progress bar example
 ```cpp
 #include <iostream>
