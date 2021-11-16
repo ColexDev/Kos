@@ -167,6 +167,13 @@ void add_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_o
 
 }
 
+void remove_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)
+{
+    int index = ((cur_row - 1) * num_of_columns) + cur_col - 1;
+    vec.erase(vec.begin() + index);
+    clear_refresh();
+}
+
 // TODO: option to delete and add new cells
 void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
 {
@@ -313,6 +320,15 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
                 vec[index - num_of_columns] = temp;
                 highlight_row--;
                 clear_refresh();
+            }
+            break;
+        case KEY_X:
+            // TODO: add bounds checking/moving cursor to right space
+            remove_cell(vec, highlight_row, highlight_col, num_of_columns);
+            if (highlight_row == num_of_rows && highlight_col > cells_in_last_row) {
+                highlight_col--;
+            } else if (highlight_row == num_of_rows && highlight_col == 1 && cells_in_last_row == 1) {
+                highlight_row--;
             }
             break;
         case KEY_N:
