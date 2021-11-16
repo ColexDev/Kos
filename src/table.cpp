@@ -143,7 +143,7 @@ std::vector<std::string> file_input()
     std::fstream file;
     file.open("saved.txt");
     std::string line;
-    while(std::getline(file, line)) {
+    while (std::getline(file, line)) {
         vec.push_back(line);
     }
     return vec;
@@ -212,7 +212,7 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
     /* Does bounds checking
      * only allows the "cursor" to go the edge of the table
      */
-    switch(keyPress) {
+    switch (keyPress) {
         case KEY_K:
             highlight_row--;
             if (highlight_row == 0) {
