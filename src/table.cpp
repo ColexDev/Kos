@@ -5,6 +5,8 @@
 
 #include "utils.h"
 #include "def.h"
+#include "file.h"
+#include "cell.h"
 
 constexpr int space_between = 2;
 int keyPress = 0;
@@ -102,77 +104,6 @@ void draw_header(std::vector<std::string> &par_vec, std::vector<std::string> &he
     // draw_header(entries_vec, header_vec, num_of_values);
     // draw_entries(entries_vec, header_vec, num_of_values);
 // }
-
-// make function to find total # of rows
-void edit_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)
-{
-    char token[512];
-    int row, col;
-    getmaxyx(stdscr, row, col);
-    mvprintw(row - 1, 1, "Enter new cell data: ");
-    move(row - 1, 22);
-    echo();
-    curs_set(1);
-    getstr(token);
-    curs_set(0);
-    noecho();
-    clear_refresh();
-
-    int index = ((cur_row - 1) * num_of_columns) + cur_col - 1;
-    vec[index] = token;
-}
-
-
-void file_output(std::vector<std::string> &vec, int num_of_rows)
-{
-    std::fstream file;
-    file.open("saved.txt");
-    for (auto cell : vec) {
-        file << cell << "\n";
-    }
-    wattron(stdscr, A_BOLD);
-    mvprintw(num_of_rows + 4, 1, "Successfully Saved File...");
-    wattroff(stdscr, A_BOLD);
-    getch();
-    clear_refresh();
-}
-
-std::vector<std::string> file_input()
-{
-    std::vector<std::string> vec;
-    std::fstream file;
-    file.open("saved.txt");
-    std::string line;
-    while (std::getline(file, line)) {
-        vec.push_back(line);
-    }
-    return vec;
-}
-
-void add_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)
-{
-    char token[512];
-    int row, col;
-    getmaxyx(stdscr, row, col);
-    mvprintw(row - 1, 1, "Enter new cell data: ");
-    move(row - 1, 22);
-    echo();
-    curs_set(1);
-    getstr(token);
-    curs_set(0);
-    noecho();
-    clear_refresh();
-
-    vec.push_back(token);
-
-}
-
-void remove_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)
-{
-    int index = ((cur_row - 1) * num_of_columns) + cur_col - 1;
-    vec.erase(vec.begin() + index);
-    clear_refresh();
-}
 
 // TODO: option to delete and add new cells
 void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)

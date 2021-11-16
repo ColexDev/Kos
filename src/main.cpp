@@ -5,6 +5,7 @@
 #include "table.h"
 #include "progress_bar.h"
 #include "utils.h"
+#include "file.h"
 
 int main()
 {
