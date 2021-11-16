@@ -73,7 +73,7 @@ Output:
 
 ---
 
-### Keybindings:
+### Keybindings
 ```
 Cursor Movement:
 h - select cell to the left
