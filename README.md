@@ -31,17 +31,42 @@ int main()
     std::vector<std::string> headers = {"Header1", "Header2"};
     std::vector<std::string> entries = file_input();
 
-    while(true) {
+    while (true) {
         menu_init(entries, headers);
     }
+
     endwin();
 }
 ```
 In the above an example a file named "saved.txt" needs to contain the desired cells in the table, this is where the program will read and write from
 
+Simple progress bar example
+```cpp
+#include <iostream>
+#include <ncurses.h>
+
+#include "progress_bar.h"
+#include "utils.h"
+
+int main()
+{
+    init_ncurses();
+
+    // (percent, length, show_percent, row = 0, column = 0)
+    print_progress_bar(45, 20, true);
+
+    getch();
+    endwin();
+}
+```
+Output:
+```
+[#########-----------] [45.00%]
+```
+
 ## Todo
 
-- Make this easily usable by #include 
+- Make this into a static shared library
 - Make simple tables work again
 - Add more functionality to excel like tables (menu_init)
 
