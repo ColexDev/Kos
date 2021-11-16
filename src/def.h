@@ -10,3 +10,4 @@ constexpr int KEY_Q = 113;
 constexpr int KEY_E = 101;
 constexpr int KEY_S = 115;
 constexpr int KEY_N = 110;
+constexpr int KEY_X = 120;
