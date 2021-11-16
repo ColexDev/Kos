@@ -1,8 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <ncurses.h>
+#include <fstream>
+#include <unistd.h>
 
 #include "utils.h"
+
 
 constexpr int space_between = 2;
 
@@ -132,6 +135,33 @@ constexpr int KEY_K = 107;
 constexpr int KEY_L = 108;
 constexpr int KEY_Q = 113;
 constexpr int KEY_E = 101;
+constexpr int KEY_S = 115;
+
+void file_output(std::vector<std::string> &vec, int num_of_rows)
+{
+    std::fstream file;
+    file.open("saved.txt");
+    for (auto cell : vec) {
+        file << cell << "\n";
+    }
+    wattron(stdscr, A_BOLD);
+    mvprintw(num_of_rows + 4, 1, "Successfully Saved File...");
+    wattroff(stdscr, A_BOLD);
+    getch();
+    clear_refresh();
+}
+
+std::vector<std::string> file_input()
+{
+    std::vector<std::string> vec;
+    std::fstream file;
+    file.open("saved.txt");
+    std::string line;
+    while(std::getline(file, line)) {
+        vec.push_back(line);
+    }
+    return vec;
+}
 
 void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
 {
@@ -255,7 +285,6 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
                 }
             }
             break;
-            // TODO: Add bounds checking
         case KEY_SHIFT_J:
             if (!(highlight_row == num_of_rows - 1 && highlight_col > cells_in_last_row)) {
                 if (highlight_row < num_of_rows) {
@@ -275,6 +304,9 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
                 highlight_row--;
                 clear_refresh();
             }
+            break;
+        case KEY_S:
+            file_output(vec, num_of_rows);
             break;
         case KEY_Q:
             endwin();
