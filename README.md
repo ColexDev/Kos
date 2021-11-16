@@ -21,6 +21,9 @@ Example of setting up an Excel like table
 #include <vector>
 #include <ncurses.h>
 
+#include "utils.h"
+#include "table.h"
+
 int main() 
 {
     init_ncurses();
