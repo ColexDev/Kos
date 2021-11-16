@@ -149,6 +149,7 @@ std::vector<std::string> file_input()
     return vec;
 }
 
+// TODO: option to delete and add new cells
 void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
 {
     const int num_of_columns = headVec.size();
@@ -228,8 +229,8 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
                     }
                 }
             }
-            if (highlight_row == num_of_rows + 1) {
-                highlight_row = num_of_rows;
+            if (highlight_row == num_of_rows) {
+                highlight_row = num_of_rows - 1;
             }
             break;
         case KEY_H:
