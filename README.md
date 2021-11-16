@@ -27,11 +27,14 @@ Example of setting up an Excel like table
 
 int main() 
 {
+    // Sets up ncurses, this can be done manually
     init_ncurses();
+
     std::vector<std::string> headers = {"Header1", "Header2"};
     std::vector<std::string> entries = file_input();
 
     while (true) {
+        // (vector_with_cells, vector_with_headers)
         menu_init(entries, headers);
     }
 
@@ -52,6 +55,7 @@ Simple progress bar example
 
 int main()
 {
+    // Sets up ncurses, this can be done manually
     init_ncurses();
 
     // (percent, length, show_percent, row = 0, column = 0)
@@ -70,5 +74,5 @@ Output:
 
 - Make this into a static shared library
 - Make simple tables work again
-- Add more functionality to excel like tables (menu_init)
-
+- Make vectors be able to hold any datatype
+- Be able to do calculations on cells 
