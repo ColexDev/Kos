@@ -43,6 +43,8 @@ void add_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_o
 void remove_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)
 {
     int index = ((cur_row - 1) * num_of_columns) + cur_col - 1;
-    vec.erase(vec.begin() + index);
+    if (!(index < 0)) {
+        vec.erase(vec.begin() + index);
+    }
     clear_refresh();
 }

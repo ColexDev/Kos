@@ -253,16 +253,17 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
                 clear_refresh();
             }
             break;
+        // NOTE: Removing all cells causes highlight_row to be 0 and highlight_col to be 4, this needs to be fixed
         case KEY_X:
-            // TODO: add bounds checking/moving cursor to right space
             remove_cell(vec, highlight_row, highlight_col, num_of_columns);
             if (highlight_row == num_of_rows && highlight_col == 1 && cells_in_last_row == 1) {
                 highlight_row--;
                 highlight_col = num_of_columns;
-            } else {
+            } else if (highlight_row == num_of_rows && highlight_col == cells_in_last_row || highlight_col == 4) {
                 highlight_col--;
             }
             break;
+        // TODO: Make n create a new cell after the cursor and make N create a new cell at the end of the table
         case KEY_N:
             add_cell(vec, highlight_row, highlight_row, num_of_columns);
             break;
@@ -275,4 +276,7 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
         case KEY_E:
             edit_cell(vec, highlight_row, highlight_col, num_of_columns);
     }
+    clear_refresh();
+    // mvprintw(10, 85 ,std::to_string(highlight_row).c_str());
+    // mvprintw(11, 85 ,std::to_string(highlight_col).c_str());
 }
