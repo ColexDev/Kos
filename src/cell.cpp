@@ -27,9 +27,16 @@ void edit_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_
     vec[index] = ask_cell_data();
 }
 
-void add_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)
+void add_cell_at_end(std::vector<std::string> &vec)
 {
     vec.push_back(ask_cell_data());
+}
+
+void add_cell_at_current(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)
+{
+    int index = ((cur_row - 1) * num_of_columns) + cur_col - 1;
+    auto position = vec.begin() + index;
+    vec.insert(position, ask_cell_data());
 }
 
 void remove_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int num_of_columns)

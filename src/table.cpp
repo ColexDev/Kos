@@ -265,7 +265,10 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
             break;
         // TODO: Make n create a new cell after the cursor and make N create a new cell at the end of the table
         case KEY_N:
-            add_cell(vec, highlight_row, highlight_row, num_of_columns);
+            add_cell_at_current(vec, highlight_row, highlight_col, num_of_columns);
+            break;
+        case KEY_SHIFT_N:
+            add_cell_at_end(vec);
             break;
         case KEY_S:
             file_output(vec, num_of_rows);
