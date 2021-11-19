@@ -48,8 +48,13 @@ void remove_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int nu
     clear_refresh();
 }
 
-void add_header(std::vector<std::string> &header_vec)
+void add_header_at_end(std::vector<std::string> &header_vec)
 {
     header_vec.push_back(ask_cell_data("Enter new header name: "));
+}
 
+void add_header_at_current(std::vector<std::string> &header_vec, int cur_col)
+{
+    auto position = header_vec.begin() + cur_col - 1;
+    header_vec.insert(position, ask_cell_data("Enter new header name: "));
 }

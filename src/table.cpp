@@ -269,8 +269,11 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
             add_cell_at_end(vec);
             break;
         // TODO: Make ability to make new header in place of the current column, and to delete headers
+        case KEY_T:
+            add_header_at_current(header_vec, highlight_col);
+            break;
         case KEY_SHIFT_T:
-            add_header(header_vec);
+            add_header_at_end(header_vec);
             break;
         case KEY_S:
             file_output_header(header_vec, num_of_rows);
@@ -283,6 +286,4 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
             edit_cell(vec, highlight_row, highlight_col, num_of_columns);
     }
     clear_refresh();
-    // mvprintw(10, 85 ,std::to_string(highlight_row).c_str());
-    // mvprintw(11, 85 ,std::to_string(highlight_col).c_str());
 }
