@@ -8,7 +8,6 @@
 #include "cell.h"
 
 constexpr int space_between = 2;
-int keyPress = 0;
 int highlight_row = 1;
 int highlight_col = 1;
 
@@ -163,18 +162,17 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
     int index = ((highlight_row - 1) * num_of_columns) + highlight_col - 1;
 
     // Checks for users keypress
-    keyPress = wgetch(stdscr);
     /* Does bounds checking
      * only allows the "cursor" to go the edge of the table
      */
-    switch (keyPress) {
-        case KEY_K:
+    switch (getch()) {
+        case 'k':
             highlight_row--;
             if (highlight_row == 0) {
                 highlight_row = 1;
             }
             break;
-        case KEY_J:
+        case 'j':
             highlight_row++;
             if (cells_in_last_row != 0) {
                 if (highlight_row == num_of_rows) {
@@ -192,13 +190,13 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
                 highlight_row = num_of_rows;
             }
             break;
-        case KEY_H:
+        case 'h':
             highlight_col--;
             if (highlight_col == 0) {
                 highlight_col = 1;
             }
             break;
-        case KEY_L:
+        case 'l':
             highlight_col++;
             if (cells_in_last_row != 0) {
                 if (highlight_row == num_of_rows) {
@@ -211,7 +209,7 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
                 highlight_col = num_of_columns;
             }
             break;
-        case KEY_SHIFT_H:
+        case 'H':
             if (highlight_col > 1) {
                 temp = vec[index];
                 vec[index] = vec[index - 1];
@@ -220,7 +218,7 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
                 clear_refresh();
             }
             break;
-        case KEY_SHIFT_L:
+        case 'L':
             if (highlight_col < num_of_columns) {
                 if (!(highlight_row == num_of_rows && highlight_col == cells_in_last_row)) {
                     temp = vec[index];
@@ -231,7 +229,7 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
                 }
             }
             break;
-        case KEY_SHIFT_J:
+        case 'J':
             if (!(highlight_row == num_of_rows - 1 && highlight_col > cells_in_last_row)) {
                 if (highlight_row < num_of_rows) {
                     temp = vec[index];
@@ -242,7 +240,7 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
                 }
             }
             break;
-        case KEY_SHIFT_K:
+        case 'K':
             if (highlight_row > 1) {
                 temp = vec[index];
                 vec[index] = vec[index - num_of_columns];
@@ -252,7 +250,7 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
             }
             break;
         // NOTE: Removing all cells causes highlight_row to be 0 and highlight_col to be 4, this needs to be fixed
-        case KEY_X:
+        case 'x':
             remove_cell(vec, highlight_row, highlight_col, num_of_columns);
             if (highlight_row == num_of_rows && highlight_col == 1 && cells_in_last_row == 1) {
                 highlight_row--;
@@ -262,27 +260,27 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
             }
             break;
         // TODO: Make n create a new cell after the cursor and make N create a new cell at the end of the table
-        case KEY_N:
+        case 'n':
             add_cell_at_current(vec, highlight_row, highlight_col, num_of_columns);
             break;
-        case KEY_SHIFT_N:
+        case 'N':
             add_cell_at_end(vec);
             break;
         // TODO: Make ability to make new header in place of the current column, and to delete headers
-        case KEY_T:
+        case 't':
             add_header_at_current(header_vec, highlight_col);
             break;
-        case KEY_SHIFT_T:
+        case 'T':
             add_header_at_end(header_vec);
             break;
-        case KEY_S:
+        case 's':
             file_output_header(header_vec, num_of_rows);
             file_output_cell(vec, num_of_rows);
             break;
-        case KEY_Q:
+        case 'q':
             endwin();
             exit(0);
-        case KEY_E:
+        case 'e':
             edit_cell(vec, highlight_row, highlight_col, num_of_columns);
     }
     clear_refresh();
