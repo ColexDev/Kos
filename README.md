@@ -88,14 +88,17 @@ K - move cell above
 L - move cell to the right
 
 Cell Manipulation:
-n - creates a new cell
+n - creates a new cell at the current cursor position
+N - creates a new cell at the end of the table
 x - deletes selected cell
-e - edits selected cell
+e - edits data selected cell
 
 Other:
 s - saves table to "saved.txt"
 q - quits program (does NOT autosave)
 ```
+
+**NOTE**: Currently only supports data type(s) - std::string
 
 ## Todo
 
