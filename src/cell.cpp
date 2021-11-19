@@ -4,13 +4,13 @@
 
 #include "utils.h"
 
-std::string ask_cell_data()
+std::string ask_cell_data(std::string input = "Enter new cell data: ")
 {
     char token[512];
     int row, col;
     getmaxyx(stdscr, row, col);
-    mvprintw(row - 1, 1, "Enter new cell data: ");
-    move(row - 1, 22);
+    mvprintw(row - 1, 1, input.c_str());
+    move(row - 1, input.length() + 1);
     echo();
     curs_set(1);
     getstr(token);
@@ -46,4 +46,10 @@ void remove_cell(std::vector<std::string> &vec, int cur_row, int cur_col, int nu
         vec.erase(vec.begin() + index);
     }
     clear_refresh();
+}
+
+void add_header(std::vector<std::string> &header_vec)
+{
+    header_vec.push_back(ask_cell_data("Enter new header name: "));
+
 }

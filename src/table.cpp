@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <ncurses.h>
-#include <fstream>
 
 #include "utils.h"
 #include "def.h"
@@ -105,14 +104,13 @@ void draw_header(std::vector<std::string> &par_vec, std::vector<std::string> &he
     // draw_entries(entries_vec, header_vec, num_of_values);
 // }
 
-// TODO: option to delete and add new cells
-void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
+void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_vec)
 {
-    const int num_of_columns = headVec.size();
+    const int num_of_columns = header_vec.size();
     const int size = vec.size();
-    draw_header(vec, headVec, num_of_columns);
-    std::vector<int> longestValues = find_longest_entries(vec, headVec, num_of_columns);
-    std::vector<int> headerLengths = find_longest_headers(headVec, num_of_columns);
+    draw_header(vec, header_vec, num_of_columns);
+    std::vector<int> longestValues = find_longest_entries(vec, header_vec, num_of_columns);
+    std::vector<int> headerLengths = find_longest_headers(header_vec, num_of_columns);
     int row = 2;
     int column = 1;
     int i = 0;
@@ -270,8 +268,13 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &headVec)
         case KEY_SHIFT_N:
             add_cell_at_end(vec);
             break;
+        // TODO: Make ability to make new header in place of the current column, and to delete headers
+        case KEY_SHIFT_T:
+            add_header(header_vec);
+            break;
         case KEY_S:
-            file_output(vec, num_of_rows);
+            file_output_header(header_vec, num_of_rows);
+            file_output_cell(vec, num_of_rows);
             break;
         case KEY_Q:
             endwin();

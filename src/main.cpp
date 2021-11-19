@@ -10,8 +10,8 @@
 int main()
 {
     init_ncurses();
-    std::vector<std::string> headers = {"Test Headerrrrrr", "Test Header 2", "Longer Test header", "New Header"};
-    std::vector<std::string> entries = file_input();
+    std::vector<std::string> headers = file_input_header();
+    std::vector<std::string> entries = file_input_cell();
     // draw_table(entries, headers, 3);
 
     // NOTE: Always run menu_init at the end of the loop or else other things will not show up until a key is pressed
