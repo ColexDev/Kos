@@ -14,6 +14,8 @@ Kos is an ncurses table system. Currently is is a menu system that mirrors rudim
 - Create a table without a menu
 - Simple, scalable progress bars
 
+**NOTE**: Currently only supports data type(s) - std::string
+
 
 ## Documentation
 
@@ -97,8 +99,6 @@ Other:
 s - saves table to "saved.txt"
 q - quits program (does NOT autosave)
 ```
-
-**NOTE**: Currently only supports data type(s) - std::string
 
 ## Todo
 
