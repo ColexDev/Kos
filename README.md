@@ -110,3 +110,4 @@ q - quits program (does NOT autosave)
 - Make simple tables work again
 - Make vectors be able to hold any datatype
 - Be able to do calculations on cells 
+- Make keybinds better/support for key combinations
