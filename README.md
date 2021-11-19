@@ -44,7 +44,7 @@ int main()
     endwin();
 }
 ```
-In the above an example a file named "saved.txt" needs to contain the desired cells in the table, this is where the program will read and write from
+In the above an example a file named "cell.txt" needs to contain the desired cells in the table and "header.txt" needs to contain the desired headers, this is where the program will read and write from
 
 ---
 
@@ -94,6 +94,10 @@ n - creates a new cell at the current cursor position
 N - creates a new cell at the end of the table
 x - deletes selected cell
 e - edits data selected cell
+
+Header Manipulation:
+SOON: t - creates new header in current column
+T - creates a new header after other headers
 
 Other:
 s - saves table to "saved.txt"
