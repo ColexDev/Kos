@@ -3,9 +3,10 @@
 #include <ncurses.h>
 
 #include "utils.h"
-#include "def.h"
 #include "file.h"
 #include "cell.h"
+
+#define ctrl(x) (x & 0x1F)
 
 constexpr int space_between = 2;
 int highlight_row = 1;
@@ -259,14 +260,16 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
                 highlight_col--;
             }
             break;
-        // TODO: Make n create a new cell after the cursor and make N create a new cell at the end of the table
+        // TODO: Make this delete the current header you are under
+        case ctrl('x'):
+            remove_header(header_vec, highlight_col);
+            break;
         case 'n':
             add_cell_at_current(vec, highlight_row, highlight_col, num_of_columns);
             break;
         case 'N':
             add_cell_at_end(vec);
             break;
-        // TODO: Make ability to make new header in place of the current column, and to delete headers
         case 't':
             add_header_at_current(header_vec, highlight_col);
             break;

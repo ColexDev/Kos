@@ -96,8 +96,9 @@ x - deletes selected cell
 e - edits data selected cell
 
 Header Manipulation:
-SOON: t - creates new header in current column
+t - creates new header in current column
 T - creates a new header after other headers
+ctrl + x - removes header of selected column 
 
 Other:
 s - saves table to "saved.txt"
