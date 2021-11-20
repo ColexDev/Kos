@@ -16,7 +16,6 @@ Kos is an ncurses table system. Currently is is a menu system that mirrors rudim
 
 **NOTE**: Currently only supports data type(s) - std::string
 
-
 ## Documentation
 
 ### Excel Table Example
@@ -98,10 +97,10 @@ e - edits data selected cell
 Header Manipulation:
 t - creates new header in current column
 T - creates a new header after other headers
-ctrl + x - removes header of selected column 
+C-x - removes header of selected column 
 
 Other:
-s - saves table to "saved.txt"
+s - saves table to "cell.txt" and "header.txt"
 q - quits program (does NOT autosave)
 ```
 
@@ -111,4 +110,4 @@ q - quits program (does NOT autosave)
 - Make simple tables work again
 - Make vectors be able to hold any datatype
 - Be able to do calculations on cells 
-- Make keybinds better/support for key combinations
+- Find better keybindings (mainly for header manipulation)
