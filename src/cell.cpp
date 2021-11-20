@@ -59,8 +59,10 @@ void add_header_at_current(std::vector<std::string> &header_vec, int cur_col)
     header_vec.insert(position, ask_cell_data("Enter new header name: "));
 }
 
-void remove_header(std::vector<std::string> &header_vec, int cur_col)
+void remove_header(std::vector<std::string> &header_vec, int cur_col, int num_of_columns)
 {
     auto position = header_vec.begin() + cur_col - 1;
-    header_vec.erase(position);
+    if (num_of_columns != 1) {
+        header_vec.erase(position);
+    }
 }

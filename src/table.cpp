@@ -260,9 +260,10 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
                 highlight_col--;
             }
             break;
-        // TODO: Make this delete the current header you are under
+
+            // TODO: ADD BOUNDS CHECKING FOR THIS
         case ctrl('x'):
-            remove_header(header_vec, highlight_col);
+            remove_header(header_vec, highlight_col, num_of_columns);
             break;
         case 'n':
             add_cell_at_current(vec, highlight_row, highlight_col, num_of_columns);
