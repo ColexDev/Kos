@@ -264,6 +264,9 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
             // TODO: ADD BOUNDS CHECKING FOR THIS
         case ctrl('x'):
             remove_header(header_vec, highlight_col, num_of_columns);
+            if (highlight_col == num_of_columns) {
+                highlight_col--;
+            }
             break;
         case 'n':
             add_cell_at_current(vec, highlight_row, highlight_col, num_of_columns);
