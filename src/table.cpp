@@ -166,129 +166,133 @@ void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_v
     /* Does bounds checking
      * only allows the "cursor" to go the edge of the table
      */
+    // FIX: Possibly make this less nested as this is kinda cringe
     switch (getch()) {
-        case 'k':
-            highlight_row--;
-            if (highlight_row == 0) {
-                highlight_row = 1;
-            }
-            break;
-        case 'j':
-            highlight_row++;
-            if (cells_in_last_row != 0) {
-                if (highlight_row == num_of_rows) {
-                    if (highlight_col > cells_in_last_row) {
-                        highlight_row = num_of_rows - 1;
-                    }
-                }
-            } else {
-                if (highlight_row == num_of_rows) {
+    case 'k':
+        highlight_row--;
+        if (highlight_row == 0) {
+            highlight_row = 1;
+        }
+        break;
+    case 'j':
+        highlight_row++;
+        if (cells_in_last_row != 0) {
+            if (highlight_row == num_of_rows) {
+                if (highlight_col > cells_in_last_row) {
                     highlight_row = num_of_rows - 1;
                 }
             }
-
-            if (highlight_row == num_of_rows + 1) {
-                highlight_row = num_of_rows;
+        } else {
+            if (highlight_row == num_of_rows) {
+                highlight_row = num_of_rows - 1;
             }
-            break;
-        case 'h':
+        }
+
+        if (highlight_row == num_of_rows + 1) {
+            highlight_row = num_of_rows;
+        }
+        break;
+    case 'h':
+        highlight_col--;
+        if (highlight_col == 0) {
+            highlight_col = 1;
+        }
+        break;
+    case 'l':
+        highlight_col++;
+        if (cells_in_last_row != 0) {
+            if (highlight_row == num_of_rows) {
+                if (highlight_col == cells_in_last_row + 1) {
+                    highlight_col = cells_in_last_row;
+                }
+            }
+        }
+        if (highlight_col == (num_of_columns + 1)) {
+            highlight_col = num_of_columns;
+        }
+        break;
+    case 'H':
+        if (highlight_col > 1) {
+            temp = vec[index];
+            vec[index] = vec[index - 1];
+            vec[index - 1] = temp;
             highlight_col--;
-            if (highlight_col == 0) {
-                highlight_col = 1;
-            }
-            break;
-        case 'l':
-            highlight_col++;
-            if (cells_in_last_row != 0) {
-                if (highlight_row == num_of_rows) {
-                    if (highlight_col == cells_in_last_row + 1) {
-                        highlight_col = cells_in_last_row;
-                    }
-                }
-            }
-            if (highlight_col == (num_of_columns + 1)) {
-                highlight_col = num_of_columns;
-            }
-            break;
-        case 'H':
-            if (highlight_col > 1) {
+            clear_refresh();
+        }
+        break;
+    case 'L':
+        if (highlight_col < num_of_columns) {
+            if (!(highlight_row == num_of_rows && highlight_col == cells_in_last_row)) {
                 temp = vec[index];
-                vec[index] = vec[index - 1];
-                vec[index - 1] = temp;
-                highlight_col--;
+                vec[index] = vec[index + 1];
+                vec[index + 1] = temp;
+                highlight_col++;
                 clear_refresh();
             }
-            break;
-        case 'L':
-            if (highlight_col < num_of_columns) {
-                if (!(highlight_row == num_of_rows && highlight_col == cells_in_last_row)) {
-                    temp = vec[index];
-                    vec[index] = vec[index + 1];
-                    vec[index + 1] = temp;
-                    highlight_col++;
-                    clear_refresh();
-                }
-            }
-            break;
-        case 'J':
-            if (!(highlight_row == num_of_rows - 1 && highlight_col > cells_in_last_row)) {
-                if (highlight_row < num_of_rows) {
-                    temp = vec[index];
-                    vec[index] = vec[index + num_of_columns];
-                    vec[index + num_of_columns] = temp;
-                    highlight_row++;
-                    clear_refresh();
-                }
-            }
-            break;
-        case 'K':
-            if (highlight_row > 1) {
+        }
+        break;
+    case 'J':
+        if (!(highlight_row == num_of_rows - 1 && highlight_col > cells_in_last_row)) {
+            if (highlight_row < num_of_rows) {
                 temp = vec[index];
-                vec[index] = vec[index - num_of_columns];
-                vec[index - num_of_columns] = temp;
-                highlight_row--;
+                vec[index] = vec[index + num_of_columns];
+                vec[index + num_of_columns] = temp;
+                highlight_row++;
                 clear_refresh();
             }
-            break;
-        // NOTE: Removing all cells causes highlight_row to be 0 and highlight_col to be 4, this needs to be fixed
-        case 'x':
-            remove_cell(vec, highlight_row, highlight_col, num_of_columns);
-            if (highlight_row == num_of_rows && highlight_col == 1 && cells_in_last_row == 1) {
-                highlight_row--;
-                highlight_col = num_of_columns;
-            } else if (highlight_row == num_of_rows && highlight_col == cells_in_last_row || highlight_col == 4) {
-                highlight_col--;
-            }
-            break;
+        }
+        break;
+    case 'K':
+        if (highlight_row > 1) {
+            temp = vec[index];
+            vec[index] = vec[index - num_of_columns];
+            vec[index - num_of_columns] = temp;
+            highlight_row--;
+            clear_refresh();
+        }
+        break;
+    // NOTE: Removing all cells causes highlight_row to be 0 and highlight_col to be 4, this needs to be fixed
+    case 'x':
+        remove_cell(vec, highlight_row, highlight_col, num_of_columns);
+        if (highlight_row == num_of_rows && highlight_col == 1 && cells_in_last_row == 1) {
+            highlight_row--;
+            highlight_col = num_of_columns;
+        } else if (highlight_row == num_of_rows && highlight_col == cells_in_last_row || highlight_col == 4) {
+            highlight_col--;
+        }
+        break;
 
-            // TODO: ADD BOUNDS CHECKING FOR THIS
-        case ctrl('x'):
-            remove_header(header_vec, highlight_col, num_of_columns);
-            if (highlight_col == num_of_columns) {
-                highlight_col--;
-            }
-            break;
-        case 'n':
-            add_cell_at_current(vec, highlight_row, highlight_col, num_of_columns);
-            break;
-        case 'N':
-            add_cell_at_end(vec);
-            break;
-        case 't':
-            add_header_at_current(header_vec, highlight_col);
-            break;
-        case 'T':
-            add_header_at_end(header_vec);
-            break;
-        case 's':
-            file_output_header(header_vec, num_of_rows);
-            file_output_cell(vec, num_of_rows);
-            break;
-        case 'q':
-            endwin();
-            exit(0);
-        case 'e':
-            edit_cell(vec, highlight_row, highlight_col, num_of_columns);
+        // TODO: ADD BOUNDS CHECKING FOR THIS
+    case ctrl('x'):
+        remove_header(header_vec, highlight_col, num_of_columns);
+        if (highlight_col == num_of_columns && num_of_columns > 1) {
+            highlight_col--;
+        }
+        break;
+    case 'n':
+        add_cell_at_current(vec, highlight_row, highlight_col, num_of_columns);
+        break;
+    case 'N':
+        add_cell_at_end(vec);
+        break;
+    case 't':
+        add_header_at_current(header_vec, highlight_col);
+        break;
+    case 'T':
+        add_header_at_end(header_vec);
+        break;
+    case 's':
+        file_output_header(header_vec, num_of_rows);
+        file_output_cell(vec, num_of_rows);
+        break;
+    case 'q':
+        endwin();
+        exit(0);
+    case 'e':
+        edit_cell(vec, highlight_row, highlight_col, num_of_columns);
+    case 'o':
+        break;
+        // NOTE: Try to make the ability to have certain cells run certain functions (maybe just remake menu_init and have it do this like old menu_init in Corcyra
     }
     clear_refresh();
 }
