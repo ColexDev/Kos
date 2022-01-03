@@ -32,12 +32,12 @@ int main()
     // Sets up ncurses, this can be done manually
     init_ncurses();
 
-    std::vector<std::string> headers = {"Header1", "Header2"};
-    std::vector<std::string> entries = file_input();
+    std::vector<std::string> headers = file_input_header();
+    std::vector<std::string> entries = file_input_cell();
 
     while (true) {
         // (vector_with_cells, vector_with_headers)
-        menu_init(entries, headers);
+        table_init(entries, headers);
     }
 
     endwin();

@@ -17,7 +17,7 @@ int main()
     // NOTE: Always run menu_init at the end of the loop or else other things will not show up until a key is pressed
     while (true) {
         // print_progress_bar(45, 20, true, 10);
-        menu_init(entries, headers);
+        table_init(entries, headers);
     }
     endwin();
 }

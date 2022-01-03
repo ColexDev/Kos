@@ -104,7 +104,7 @@ void draw_header(std::vector<std::string> &par_vec, std::vector<std::string> &he
     // draw_entries(entries_vec, header_vec, num_of_values);
 // }
 
-void menu_init(std::vector<std::string> &vec, std::vector<std::string> &header_vec)
+void table_init(std::vector<std::string> &vec, std::vector<std::string> &header_vec)
 {
     const int num_of_columns = header_vec.size();
     const int size = vec.size();
